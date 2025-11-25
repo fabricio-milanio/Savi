@@ -1,63 +1,77 @@
-#
-# Dockerfile para Ubuntu 22.04 + Apache + PHP 8.2 + Node.js 18 + Composer
-#
+# Usar imagem oficial PHP 8.2 com Apache
+FROM php:8.2-apache
 
-# 1) Base: Ubuntu 22.04
-FROM ubuntu:22.04
-
-# Evita prompts interativos ao rodar apt-get
+# Evita prompts interativos durante a instalação de pacotes
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 2) Instala pacotes básicos do sistema e Apache + PHP + extensões
+# Instalar dependências do sistema, extensões PHP e Node.js 18
 RUN apt-get update && apt-get install -y \
-    apache2 \
-    libapache2-mod-php8.2 \
-    php8.2 \
-    php8.2-mysql \
-    php8.2-zip \
-    php8.2-xml \
-    php8.2-mbstring \
-    php8.2-curl \
-    php8.2-intl \
     unzip \
     curl \
     git \
     gnupg \
-    # Instala Node.js (via NodeSource)
+    libonig-dev \
+    libzip-dev \
+    libicu-dev \
+    libxml2-dev \
+    # Adicionado para a extensão pdo_sqlite
+    libsqlite3-dev \
+    libcurl4-openssl-dev \
+    zip \
+    # Adicionado pdo_sqlite
+    && docker-php-ext-install intl mbstring pdo_mysql pdo_sqlite zip xml curl opcache \
     && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
-    # Limpa caches do apt
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# 3) Instala Composer globalmente
+# Instalar Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# 4) Habilita mod_rewrite do Apache (necessário para Laravel)
+# Habilitar mod_rewrite do Apache
 RUN a2enmod rewrite
 
-# 5) Ajustes de diretório de trabalho
+# Definir diretório de trabalho
 WORKDIR /var/www/html
 
-# 6) Copia código da aplicação para dentro do container
+# Copiar o código da aplicação para o contêiner
+# É uma boa prática copiar composer.json e package.json primeiro para aproveitar o cache do Docker
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader
+
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copiar o restante do código
 COPY . .
 
-# 7) Copia configuração customizada do Apache (mais adiante criaremos este arquivo)
-COPY docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+# Finalizar a instalação das dependências
+RUN composer install --no-dev --optimize-autoloader
+RUN npm run build
 
-# 8) Instala dependências PHP via Composer
-RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+# Gerar a chave da aplicação Laravel
+RUN php artisan key:generate
 
-# 9) Instala dependências Node e constrói os assets via Vite
-RUN npm install \
-    && npm run build
+# Criar o arquivo de banco de dados e rodar as migrações
+# Isso garante que o banco de dados esteja pronto quando a aplicação iniciar
+RUN touch database/database.sqlite
+RUN php artisan migrate --force
 
-# 10) Ajusta permissões de storage e cache para o usuário www-data
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
+# Ajustar permissões para o usuário do Apache (www-data)
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
 
-# 11) Expõe a porta 80 (Apache)
+# Ajustar Apache para apontar para o diretório /public do Laravel
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf \
+    && echo '<Directory /var/www/html/public>\n\
+    Options Indexes FollowSymLinks\n\
+    AllowOverride All\n\
+    Require all granted\n\
+</Directory>' > /etc/apache2/conf-available/laravel.conf \
+    && a2enconf laravel
+
+# Expor a porta 80
 EXPOSE 80
 
-# 12) Comando final: executa o Apache em foreground
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+# Comando para iniciar o servidor Apache
+CMD ["apache2-foreground"]
