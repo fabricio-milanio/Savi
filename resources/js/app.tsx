@@ -5,7 +5,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import PageTransitionLoader from './components/page-transition-loader';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Savi';
+const appName = import.meta.env.VITE_APP_NAME || 'SAVI';
 
 createInertiaApp({
   title: (title) => `${title}  ${appName}`,

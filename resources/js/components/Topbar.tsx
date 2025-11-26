@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
-import { FaInstagram, FaFacebookF } from 'react-icons/fa';
+// ADICIONADO: FaYoutube na importação abaixo
+import { FaInstagram, FaFacebookF, FaYoutube } from 'react-icons/fa';
 import { HiOutlineMenu, HiOutlineX } from 'react-icons/hi';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
@@ -55,17 +56,7 @@ export default function Topbar() {
                     </Link>
                   )}
                 </Menu.Item>
-                <Menu.Item>
-                  {() => (
-                    <Link
-                      href={route('contato')}
-                      className="block text-lg font-medium text-gray-800 hover:text-green-700 transition"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      Contato
-                    </Link>
-                  )}
-                </Menu.Item>
+                
                 <Menu.Item>
                   {() => (
                     <Link
@@ -77,19 +68,20 @@ export default function Topbar() {
                     </Link>
                   )}
                 </Menu.Item>
+
                 <Menu.Item>
                   {() => (
                     <Link
-                      href="#"
+                      href={route('contato')}
                       className="block text-lg font-medium text-gray-800 hover:text-green-700 transition"
                       onClick={() => setMenuOpen(false)}
                     >
-                      
+                      Contato
                     </Link>
                   )}
                 </Menu.Item>
 
-                {/* Ações */}
+                {/* Ações Mobile */}
                 <div className="pt-4 border-t border-gray-200">
                   <Link
                     href={route('contato')}
@@ -115,6 +107,15 @@ export default function Topbar() {
                     >
                       <FaFacebookF size={22} />
                     </a>
+                    {/* ADICIONADO: Ícone do Youtube Mobile */}
+                    <a
+                      href="https://www.youtube.com/@SociedadeAmbientevivo"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-700 hover:text-red-600 transition"
+                    >
+                      <FaYoutube size={22} />
+                    </a>
                   </div>
                 </div>
               </Menu.Items>
@@ -123,19 +124,19 @@ export default function Topbar() {
         </div>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="hidden md:flex items-center space-x-10">
           <Link href={route('home')} className="text-gray-700 hover:text-gray-900">
             Home
           </Link>
-          <Link href={route('contato')} className="text-gray-700 hover:text-gray-900">
-            Contato
-          </Link>
+
           <Link href={route('programas')} className="text-gray-700 hover:text-gray-900">
             Projetos
           </Link>
-          <Link href="#" className="text-gray-700 hover:text-gray-900">
-            
+
+          <Link href={route('contato')} className="text-gray-700 hover:text-gray-900">
+            Contato
           </Link>
+
         </nav>
 
         {/* Desktop Ações */}
@@ -162,6 +163,15 @@ export default function Topbar() {
               className="text-gray-700 hover:text-blue-600"
             >
               <FaFacebookF size={20} />
+            </a>
+            {/* ADICIONADO: Ícone do Youtube Desktop */}
+            <a
+              href="https://www.youtube.com/@SociedadeAmbientevivo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-red-600"
+            >
+              <FaYoutube size={20} />
             </a>
           </div>
         </div>

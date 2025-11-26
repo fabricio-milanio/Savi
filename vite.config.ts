@@ -26,8 +26,17 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         port: 5173,
+        strictPort: true, 
         hmr: {
-            host: 'localhost', // <- para funcionar no navegador
+            host: 'localhost',
+            clientPort: 5173,
+        },
+        watch: {
+            // CRÍTICO PARA WINDOWS:
+            // usePolling força a detecção de mudanças (necessário no Docker)
+            // interval 1000 checa a cada 1s em vez de instantâneo, reduzindo MUITO a lentidão
+            usePolling: true,
+            interval: 1000, 
         },
     },
 });
