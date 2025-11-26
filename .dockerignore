@@ -6,3 +6,6 @@ vendor
 storage/framework/cache
 storage/framework/views
 storage/framework/sessions
+public/build
+.env
+.phpunit.result.cache

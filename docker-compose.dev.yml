@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app_dev:
+    build:
+      context: .
+      dockerfile: dockerfile.dev  # Usa o arquivo de dev
+    image: savi-dev-image
+    container_name: savi_app_dev
+    restart: unless-stopped
+    working_dir: /var/www/html
+    ports:
+      - "8000:80"      # Acessar em http://localhost
+      - "5173:5173"  # Porta do Vite (Hot Reload)
+    volumes:
+      - ./:/var/www/html # Espelhamento: o que você edita no PC muda no container
+    networks:
+      - savi-dev-net
+
+networks:
+  savi-dev-net:
+    driver: bridge

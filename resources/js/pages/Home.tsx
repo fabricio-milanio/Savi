@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { Link } from '@inertiajs/react'; // Importação necessária para navegação interna
 import {
   Heart,
   Leaf,
@@ -75,7 +76,8 @@ function Home() {
       
       {/* --- INÍCIO DO BOTÃO WHATSAPP FLUTUANTE --- */}
       <a
-        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`}
+        // Usamos api.whatsapp.com/send para forçar a detecção do app/web mais rápido
+        href={`https://api.whatsapp.com/send?phone=${whatsappNumber.replace(/\D/g, '')}&text=${encodeURIComponent(whatsappMessage)}`}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-green-300"
@@ -106,23 +108,34 @@ function Home() {
           loop={true}
           className="w-full min-h-[350px] sm:h-[450px] md:h-[56.25vw] max-h-[90vh]"
         >
+          {/* Slide 1 - Anel Hidráulico (ID: 6) */}
           <SwiperSlide>
-            <div className="relative w-full h-full">
-              <img src="/images/anel-hidraulico-itabira.png" alt="Slide 1" className="object-cover w-full h-full" />
-              <div className="absolute inset-0 bg-black/10"></div>
-            </div>
+            <Link href="/programas?id=1">
+              <div className="relative w-full h-full cursor-pointer">
+                <img src="/images/anel-hidraulico-itabira.webp" alt="Anel Hidráulico" className="object-cover w-full h-full" />
+                <div className="absolute inset-0 bg-black/10 hover:bg-black/20 transition-colors"></div>
+              </div>
+            </Link>
           </SwiperSlide>
+
+          {/* Slide 2 - Teatro/Educação (ID: 2 - Educação Ambiental) */}
           <SwiperSlide>
-            <div className="relative w-full h-full">
-              <img src="/images/CONVITE-SAVI.png" alt="Slide 2" className="object-cover w-full h-full" />
-              <div className="absolute inset-0 bg-black/10"></div>
-            </div>
+            <Link href="/programas?id=2">
+              <div className="relative w-full h-full cursor-pointer">
+                <img src="/images/teatro-escola.webp" alt="Educação Ambiental" className="object-cover w-full h-full" />
+                <div className="absolute inset-0 bg-black/10 hover:bg-black/20 transition-colors"></div>
+              </div>
+            </Link>
           </SwiperSlide>
+
+          {/* Slide 3 - Viveiro/Revitalização (ID: 3 - Revitalização de Bacias) */}
           <SwiperSlide>
-            <div className="relative w-full h-full">
-              <img src="https://www.educandotudomuda.com.br/wp-content/uploads/2021/06/mexer-na-terra.jpg" alt="Slide 3" className="object-cover w-full h-full" />
-              <div className="absolute inset-0 bg-black/10"></div>
-            </div>
+            <Link href="/programas?id=3">
+              <div className="relative w-full h-full cursor-pointer">
+                <img src="/images/viveiro-mudas.webp" alt="Revitalização" className="object-cover w-full h-full" />
+                <div className="absolute inset-0 bg-black/10 hover:bg-black/20 transition-colors"></div>
+              </div>
+            </Link>
           </SwiperSlide>
         </Swiper>
       </div>

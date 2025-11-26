@@ -1,5 +1,4 @@
-// resources/js/Pages/Programas.tsx
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import MainLayout from '@/layouts/Main/main-layout';
 import { 
   TreePine, 
@@ -23,22 +22,22 @@ import {
 const projects = [
   {
     id: 1,
-    title: "A Praça é Nossa",
+    title: "Construção de redes de água",
     category: "Meio Ambiente",
-    status: "Concluído",
-    image: "https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg?auto=compress&cs=tinysrgb&w=800",
-    description: "O projeto “A Praça é Nossa” é uma iniciativa anual da SAVI que visa revitalizar praças públicas em Itabira e promover a conexão da comunidade com esses espaços de forma consciente.",
-    fullDescription: "Revitalização de praças públicas: limpeza, pequenos reparos, pintura e melhorias no paisagismo. Integração comunitária: envolver moradores de todas as idades para reencontrar e cuidar dos espaços públicos. Consciência ambiental: atitudes cotidianas que promovem respeito e preservação ao meio ambiente Em bairros onde o projeto atuou, como bairro São Pedro, Campestre e Juca Rosa, estima-se que cada ação atingiu diretamente cerca de 500 a 1.500 moradores locais, considerando o raio de uso da praça.",
+    status: "Em andamento",
+    image: "https://images.pexels.com/photos/1301856/pexels-photo-1301856.jpeg?auto=compress&cs=tinysrgb&w=800",
+    description: "O projeto consiste na construção de cerca de 7km de nova redes de água para possibilitar a interligação do anel de abastecimento de água entre os diferentes sistemas e a evacuação de 600 l/s de uma nova captação de água a ser implantada.",
+    fullDescription: "Atualmente Itabira possui alguns sistemas de tratamento de água que não possuem comunicação entre si, impossibilitando o intercâmbio de água entre sistema. Essa situação impede que, em eventos de falhas, se transfira água de um sistema saudável para um sistema inoperante. Ainda em busca de novas fontes de água para abastecer a crescente demanda da cidade, foi identificado que a maneira viável de se abastecer a cidades seria por meio da transposição de água do rio tanque numa vazão de 600 l/s a ser entregue numa ETA localizada no bairro campestre, chamada ETA Campestre. O anel hidráulico que hoje abastece a cidade não possui capacidade de transportar essa nova carga d’água para reservatórios utilizados para distribuição, demandando implantação de nova redes para garantir que a nova fonte de água possa, de fato atender a população de Itabira. Assim, a construção dessas novas redes de água permitirá que a água possa transitar entre os sistemas de abastecimento, diminuindo problemas de falta de água e possibilitará que a nova captação de água seja distribuída para toda cidade.",
     impact: "",
-    beneficiaries: "1500 pessoas",
-    duration: "",
+    beneficiaries: "Toda a população de Itabira-MG",
+    duration: "12 Meses",
     location: "Itabira - MG",
     partners: [],
     goals: [],
     gallery: [
-      "https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg?auto=compress&cs=tinysrgb&w=400",
-      "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=400",
-      "https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=400"
+      "https://images.pexels.com/photos/1301856/pexels-photo-1301856.jpeg?auto=compress&cs=tinysrgb&w=400",
+      "https://images.pexels.com/photos/1301857/pexels-photo-1301857.jpeg?auto=compress&cs=tinysrgb&w=400",
+      "https://images.pexels.com/photos/1301858/pexels-photo-1301858.jpeg?auto=compress&cs=tinysrgb&w=400"
     ]
   },
   {
@@ -82,7 +81,7 @@ const projects = [
     ]
   },
   {
-    id: 5,
+    id: 4,
     title: "Show Ecológico",
     category: "Meio Ambiente",
     status: "Concluído",
@@ -102,23 +101,23 @@ const projects = [
     ]
   },
   {
-    id: 6,
-    title: "Construção de redes de água",
+    id: 5,
+    title: "A Praça é Nossa",
     category: "Meio Ambiente",
-    status: "Em andamento",
-    image: "https://images.pexels.com/photos/1301856/pexels-photo-1301856.jpeg?auto=compress&cs=tinysrgb&w=800",
-    description: "O projeto consiste na construção de cerca de 7km de nova redes de água para possibilitar a interligação do anel de abastecimento de água entre os diferentes sistemas e a evacuação de 600 l/s de uma nova captação de água a ser implantada.",
-    fullDescription: "Atualmente Itabira possui alguns sistemas de tratamento de água que não possuem comunicação entre si, impossibilitando o intercâmbio de água entre sistema. Essa situação impede que, em eventos de falhas, se transfira água de um sistema saudável para um sistema inoperante. Ainda em busca de novas fontes de água para abastecer a crescente demanda da cidade, foi identificado que a maneira viável de se abastecer a cidades seria por meio da transposição de água do rio tanque numa vazão de 600 l/s a ser entregue numa ETA localizada no bairro campestre, chamada ETA Campestre. O anel hidráulico que hoje abastece a cidade não possui capacidade de transportar essa nova carga d’água para reservatórios utilizados para distribuição, demandando implantação de nova redes para garantir que a nova fonte de água possa, de fato atender a população de Itabira. Assim, a construção dessas novas redes de água permitirá que a água possa transitar entre os sistemas de abastecimento, diminuindo problemas de falta de água e possibilitará que a nova captação de água seja distribuída para toda cidade.",
+    status: "Concluído",
+    image: "https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg?auto=compress&cs=tinysrgb&w=800",
+    description: "O projeto “A Praça é Nossa” é uma iniciativa anual da SAVI que visa revitalizar praças públicas em Itabira e promover a conexão da comunidade com esses espaços de forma consciente.",
+    fullDescription: "Revitalização de praças públicas: limpeza, pequenos reparos, pintura e melhorias no paisagismo. Integração comunitária: envolver moradores de todas as idades para reencontrar e cuidar dos espaços públicos. Consciência ambiental: atitudes cotidianas que promovem respeito e preservação ao meio ambiente Em bairros onde o projeto atuou, como bairro São Pedro, Campestre e Juca Rosa, estima-se que cada ação atingiu diretamente cerca de 500 a 1.500 moradores locais, considerando o raio de uso da praça.",
     impact: "",
-    beneficiaries: "Toda a população de Itabira-MG",
-    duration: "12 Meses",
+    beneficiaries: "1500 pessoas",
+    duration: "",
     location: "Itabira - MG",
     partners: [],
     goals: [],
     gallery: [
-      "https://images.pexels.com/photos/1301856/pexels-photo-1301856.jpeg?auto=compress&cs=tinysrgb&w=400",
-      "https://images.pexels.com/photos/1301857/pexels-photo-1301857.jpeg?auto=compress&cs=tinysrgb&w=400",
-      "https://images.pexels.com/photos/1301858/pexels-photo-1301858.jpeg?auto=compress&cs=tinysrgb&w=400"
+      "https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg?auto=compress&cs=tinysrgb&w=400",
+      "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=400",
+      "https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=400"
     ]
   },
 ];
@@ -141,6 +140,20 @@ const stats = [
 const ProjectsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+
+  // --- LÓGICA DE ABERTURA VIA URL ---
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const idParam = params.get('id');
+
+    if (idParam) {
+      const projectToOpen = projects.find(p => p.id === Number(idParam));
+      if (projectToOpen) {
+        setSelectedProject(projectToOpen);
+      }
+    }
+  }, []); 
+  // ---------------------------------
 
   // Configuração do WhatsApp
   const whatsappNumber = "553137605177"; 
@@ -187,7 +200,8 @@ const ProjectsPage = () => {
       
       {/* --- INÍCIO DO BOTÃO WHATSAPP FLUTUANTE --- */}
       <a
-        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`}
+        // Usamos api.whatsapp.com/send para forçar a detecção do app/web mais rápido
+        href={`https://api.whatsapp.com/send?phone=${whatsappNumber.replace(/\D/g, '')}&text=${encodeURIComponent(whatsappMessage)}`}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-green-300"

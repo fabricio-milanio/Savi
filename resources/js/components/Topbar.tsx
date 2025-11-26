@@ -124,7 +124,7 @@ export default function Topbar() {
         </div>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center space-x-10">
+        <nav className="hidden md:flex items-center space-x-20">
           <Link href={route('home')} className="text-gray-700 hover:text-gray-900">
             Home
           </Link>
@@ -140,14 +140,17 @@ export default function Topbar() {
         </nav>
 
         {/* Desktop Ações */}
-        <div className="hidden md:flex flex-col items-end space-y-2">
+        <div className="hidden md:flex flex-col w-fit gap-2">
+          {/* 1. Botão: Define a largura do container pai */}
           <Link
             href={route('contato')}
-            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 text-sm font-medium"
+            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 text-sm font-medium text-center w-full block"
           >
             Fale com a gente
           </Link>
-          <div className="flex space-x-4">
+
+          {/* 2. Container dos Ícones: Ocupa 100% da largura e espalha os itens */}
+          <div className="flex w-full justify-between px-1">
             <a
               href="https://www.instagram.com/savi_ong"
               target="_blank"
@@ -164,7 +167,6 @@ export default function Topbar() {
             >
               <FaFacebookF size={20} />
             </a>
-            {/* ADICIONADO: Ícone do Youtube Desktop */}
             <a
               href="https://www.youtube.com/@SociedadeAmbientevivo"
               target="_blank"
