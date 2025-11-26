@@ -9,17 +9,35 @@ services:
     container_name: laravel_app
     restart: unless-stopped
     working_dir: /var/www/html
-    ports:
-      - "80:80"
-      - "5173:5173"
+    # Portas removidas pois o Caddy gerencia a entrada agora
     volumes:
-      - ./:/var/www/html:cached
+      - ./:/var/www/html
     environment:
       - LARAVEL_SAIL=1
-      - APP_URL=http://localhost:8000
+      - APP_URL=https://ongsavi.com.br
+    networks:
+      - laravel
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy_server
+    restart: unless-stopped
+    ports:
+      - "80:80"   # Porta HTTP
+      - "443:443" # Porta HTTPS (Segura)
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
     networks:
       - laravel
 
 networks:
   laravel:
     driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
